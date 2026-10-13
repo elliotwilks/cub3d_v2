@@ -12,6 +12,7 @@
 
 #define WIDTH 500
 #define HEIGHT 500
+#define BUFFER_SIZE 33
 
 typedef struct s_data
 {
@@ -44,5 +45,17 @@ void	draw_in_image(void *param);
 void	fill_square(void *param, uint32_t colour);
 int		file_incorrect(char *path);
 void	handle_error(void);
+int		ft_strcmp(char *s1, char *s2);
+void	custom_print(char *str);
+int		ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
+void	ft_putstr(char *str);
+int		ft_strchr(char *str, char c);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*read_file(int fd, char *storage);
+char	*extract_line(char *storage);
+char	*update_storage(char *storage, char *line);
+char	*get_next_line(int fd);
+
 
 #endif //CUB3D_H

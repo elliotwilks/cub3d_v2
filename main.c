@@ -17,7 +17,7 @@ char	**get_grid(t_data *data, char *path)
 
 	fd = open(path, O_RDONLY);
 
-	printf("%d\n", fd);
+	printf("File Descriptor for map.cub is: %d\n", fd);
 
 	return (data->grid);
 }
@@ -25,91 +25,41 @@ char	**get_grid(t_data *data, char *path)
 int		scan(int fd, char *identifiers)
 {
 	char	*buff;
-	int		i;
-	int		j;
-	int		count;
 
 	buff = malloc(sizeof(char) * 2);
-
-	read(fd, buff, 2);
 	buff[2] = '\0';
+	read(fd, buff, 2);
 
-	i = 0;
-	while (buff[i])
-	{
-		if (ft_strcmp(buff[i]), identifiers[i] == 0) // if both strings are equal
-		i++;
-	}
+	if (ft_strcmp(buff, identifiers) == 0) // The same as eachother 
+		return (1);
 
-	/*
-	If both the characters are not equal to each other then
-	*/
-
-	return (buff[1]);
+	return (0);
 }
 
-
-/*
-In the map.cub file each texture has a path. Each texture has an
-identifier. For example: 'NO' <--- Identifier './textures/north_texture' <-- path
-
-So I need to be able to scan each character in the file untill I see the
-identifier. Then I need to up everything after the space into the correct variable.
-Either a texture type, floor or ceiling
-
-There is 6 of these variables. So I should count each time a variable is added.
-Then I know. After 6, everything after that should be the map. Maybe theres
-a better what do do this.
-
-Also one thing to consider is, will the stream go back to the start position or will
-it go upto the point it has read to/ stay there?
-
-I have forgot how the scan() & consume() functions work.
-
-It should be something along the lines of
-
-int		scan(int fd, char *identifiers)
-{
-
-}
-
-if (scan(fd, "NO") == 1)
-{
-	// read till the newline and put in the string variable
-}
-
-
-*/
 void	get_textures(t_data *data, char *path)
 {
 	int		count;
 	int		fd;
-	char	buff[33];
 
 	fd = open(path, O_RDONLY);
-	count = 0;
 
-	while (1)
+	count = 0;
+	while (count < 6) // Six variables to collect
 	{
 		if (scan(fd, "NO") == 1)
-			data->north_texture = get_upto_newline(fd);
+			data->north_texture = get_next_line(fd);
 
 		else if (scan(fd, "SO") == 1)
-			data->south_texture = get_upto_newline(fd);
+			data->south_texture = get_next_line(fd);
 
 		else if (scan(fd, "WE") == 1)
-			data->west_texture = get_upto_newline(fd);
+			data->west_texture = get_next_line(fd);
 
-		else if (scan(fd, "WE") == 1)
-			data->east_texture = get_upto_newline(fd);
+		else if (scan(fd, "EA") == 1)
+			data->east_texture = get_next_line(fd);
 
-		///hhhhm this is not really perfect
-
-
+		count++;
 	}
-
-
-
 }
 
 t_data	*get_data(t_data *data, char *path)
