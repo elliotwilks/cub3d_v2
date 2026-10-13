@@ -1,0 +1,26 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "cub3d build",
+            "command": "/usr/bin/cc",
+            "args":
+            [
+                "-g", "-Wall", "-Wextra", "-Werror",
+                "-I${workspaceFolder}/MLX42/include", "-I${workspaceFolder}/MLX42/include/MLX42",
+                "main.c", "utils.c", "${workspaceFolder}/MLX42/build/libmlx42.a",
+                "-ldl", "-lglfw", "-pthread", "-lm"
+            ],
+            "options":
+            {
+                "cwd": "${workspaceFolder}"
+            },
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

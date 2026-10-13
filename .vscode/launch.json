@@ -1,0 +1,30 @@
+
+// Launch "launch.json" speaks to the vscode debugger.  It  tells  the  debugger
+// specifically How to start the program. If we didn't have this file  we  would
+// be launching the program ourself by typing out ./a.out gdb  with  some  flags
+// and arguments. But this file does it for us.
+{
+	"configurations":
+	[
+		{
+			"name": "Debug cub3d",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/a.out",
+			"args": ["map.cub"],
+			"cwd": "${workspaceFolder}",
+			"MIMode": "gdb",
+			"miDebuggerPath": "/usr/bin/gdb",
+			"preLaunchTask": "cub3d build",
+			"setupCommands":
+			[
+				{
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			]
+		}
+
+	],
+	"version": "0.2.0"
+}
