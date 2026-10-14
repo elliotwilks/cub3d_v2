@@ -71,7 +71,7 @@ void	handle_error(void)
 int ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-	
+
 	i = 0;
 	while ((s1[i] == s2[i]) && s1[i] && s2[i])
 		i++;
@@ -103,12 +103,13 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(const char *str)
 {
 	int		i;
 	char	*buff;
+
 	i = 0;
-	if (s[i] == '\0')
+	if (str[i] == '\0')
 	{
 		buff = malloc(1);
 		if (buff == NULL)
@@ -116,10 +117,10 @@ char	*ft_strdup(const char *s)
 		buff[i] = '\0';
 		return (buff);
 	}
-	buff = malloc(ft_strlen(s) + 1);
-	while (s[i])
+	buff = malloc(ft_strlen(str) + 1);
+	while (str[i])
 	{
-		buff[i] = s[i];
+		buff[i] = str[i];
 		i++;
 	}
 	buff[i] = '\0';
@@ -158,6 +159,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	buff = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (buff == NULL)
 		return (NULL);
+
 	while (s1[i])
 	{
 		buff[i] = s1[i];
@@ -178,6 +180,7 @@ char	*read_file(int fd, char *storage)
 	int		bytes;
 	char	*buff;
 	char	*tmp;
+
 	if (storage == NULL)
 		storage = ft_strdup("");
 	buff = malloc(BUFFER_SIZE + 1);
@@ -207,6 +210,7 @@ char	*extract_line(char *storage)
 	int		i;
 	int		size;
 	char	*line;
+
 	size = 0;
 	while (storage[size] && storage[size] != '\n')
 		size++;
@@ -230,6 +234,7 @@ char	*update_storage(char *storage, char *line)
 	int		i;
 	int		j;
 	char	*new_storage;
+
 	(void)line;
 	i = 0;
 	j = 0;
@@ -256,6 +261,7 @@ char	*get_next_line(int fd)
 {
 	static char	*storage;
 	char		*line;
+
 	if (fd < 0)
 		return (NULL);
 	storage = read_file(fd, storage);
@@ -264,4 +270,16 @@ char	*get_next_line(int fd)
 	line = extract_line(storage);
 	storage = update_storage(storage, line);
 	return (line);
+}
+
+void	print_grid(t_data *data)
+{
+	int		i;
+
+	i = 0;
+	while (data->grid[i])
+	{
+		printf("%s", data->grid[i]);
+		i++;
+	}
 }

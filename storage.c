@@ -67,3 +67,20 @@ How will the .cub file differ each time?
 	  information that comes afterwards.
 
 */
+/*
+This should be easier because we are looking for the start of the map (so either
+a 1 or a 0) and then we are using get_next_line() to grab each line of the  map.
+data->grid is an array of strings. data->grid[0] is  the  first  string  and  so
+on... I should go upto the point
+
+I need to count the number of lines in the grid so I can create the memory space
+for the correct amount of lines.
+
+Turns out the best way to do it is to close the file descriptor and then re-open
+it so I get a fresh stream to work with.
+
+So the first file descriptor will be used to count the number of lines in the grid
+and the second file descriptor will be to fill those lines but in the data->grid
+array.
+
+*/

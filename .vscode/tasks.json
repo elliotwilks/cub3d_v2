@@ -8,8 +8,8 @@
             [
                 "-g", "-Wall", "-Wextra", "-Werror",
                 "-I${workspaceFolder}/MLX42/include", "-I${workspaceFolder}/MLX42/include/MLX42",
-                "main.c", "utils.c", "libft.c", "${workspaceFolder}/MLX42/build/libmlx42.a",
-                "-ldl", "-lglfw", "-pthread", "-lm"
+                "main.c", "utils.c", "parse.c", "libft.c", "build_player.c",
+                "${workspaceFolder}/MLX42/build/libmlx42.a", "-ldl", "-lglfw", "-pthread", "-lm"
             ],
             "options":
             {

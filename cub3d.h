@@ -28,7 +28,6 @@ typedef struct s_data
 
 	char	*floor;
 	char	*ceiling;
-
 }
 t_data;
 
@@ -38,6 +37,11 @@ typedef struct s_player
 	int		y_position;
 	int		x_orientation;
 	int		y_orientation;
+
+	int		turn_direction;
+	int		walk_direction;
+	int		move_speed;
+	int		rotation_speed;
 }
 t_player;
 
@@ -65,5 +69,22 @@ char	*ft_strtrim(char const *s1, char const *set);
 int		is_set(char c, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	print_grid(t_data *data);
+
+
+/*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
+
+int		get_textures(t_data *data, char *path);
+char	**get_grid(t_data *data, char *path, int fd_parsed);
+int		count_lines(int fd);
+t_data	*get_data(t_data *data, char *path);
+
+
+/*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
+
+t_player	*build_player(t_data *data);
+void		get_position(t_player *player, char **grid);
+void		print_player(t_player *player);
+
 
 #endif //CUB3D_H
