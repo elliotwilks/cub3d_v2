@@ -25,6 +25,10 @@ typedef struct s_data
 	char	*south_texture;
 	char	*east_texture;
 	char	*west_texture;
+
+	char	*floor;
+	char	*ceiling;
+
 }
 t_data;
 
@@ -46,6 +50,7 @@ void	fill_square(void *param, uint32_t colour);
 int		file_incorrect(char *path);
 void	handle_error(void);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	custom_print(char *str);
 int		ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
@@ -56,6 +61,9 @@ char	*read_file(int fd, char *storage);
 char	*extract_line(char *storage);
 char	*update_storage(char *storage, char *line);
 char	*get_next_line(int fd);
-
+char	*ft_strtrim(char const *s1, char const *set);
+int		is_set(char c, char const *set);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 #endif //CUB3D_H

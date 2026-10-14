@@ -6,7 +6,7 @@
 #    By: elwilks <elwilks@student.42bangkok.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/13 13:03:23 by elwilks           #+#    #+#              #
-#    Updated: 2026/10/13 15:50:32 by elwilks          ###   ########.fr        #
+#    Updated: 2026/10/14 12:49:13 by elwilks          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC= cc
 
 CFLAGS= -Wall -Wextra -Werror
 
-SRC= main.c utils.c
+SRC= main.c utils.c libft.c
 
 INCLUDE= -IMLX42/include/MLX42/ -IMLX42/include
 

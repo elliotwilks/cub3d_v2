@@ -39,3 +39,31 @@ if (scan(fd, "NO") == 1)
 
 
 */
+
+/*
+I think the problem with this is that each time the function gets called
+it uses read and consumes two bites. So I should scan then am then put
+them back. At the moment I am collecting the line and then going past the
+identifier.
+
+I maybe get next line is not the right function for this. It is taking too
+much so I cant get the next identifier.
+
+*/
+
+/*
+I should count upto the point I get a newline and then I should take that
+number and just copy across everything upto that number.
+
+Wait but then we cant go back or can we? Because we have read upto that point
+can we go back?
+*/
+/*
+In order to get each part of the grid correctly. How should I approach this?
+How will the .cub file differ each time?
+
+	- The order of the floor, ceiling, north, south, east and west tetures can
+	  change so I need to use their "identifiers" and then store the path or
+	  information that comes afterwards.
+
+*/

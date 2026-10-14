@@ -1,14 +1,42 @@
 #include "cub3d.h"
 
-/*
-In order to get each part of the grid correctly. How should I approach this?
-How will the .cub file differ each time?
 
-	- The order of the floor, ceiling, north, south, east and west tetures can
-	  change so I need to use their "identifiers" and then store the path or
-	  information that comes afterwards.
 
-*/
+void	get_textures(t_data *data, char *path)
+{
+	int		fd;
+	int		count;
+	char	*line;
+
+	fd = open(path, O_RDONLY);
+	count = 0;
+	while (count < 6)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, "NO ", 3) == 0)
+			data->north_texture = ft_strtrim(line + 3, " \n");
+		else if (ft_strncmp(line, "SO ", 3) == 0)
+			data->south_texture = ft_strtrim(line + 3, " \n");
+		else if (ft_strncmp(line, "WE ", 3) == 0)
+			data->west_texture = ft_strtrim(line + 3, " \n");
+		else if (ft_strncmp(line, "EA ", 3) == 0)
+			data->east_texture = ft_strtrim(line + 3, " \n");
+		else if (ft_strncmp(line, "C ", 2) == 0)
+			data->ceiling = ft_strtrim(line + 3, " \n");
+		else if (ft_strncmp(line, "F ", 2) == 0)
+			data->floor = ft_strtrim(line + 3, " \n");
+		else
+		{
+			free(line);
+			continue ;
+		}
+		free(line);
+		count++;
+	}
+}
+
 char	**get_grid(t_data *data, char *path)
 {
 	int		fd;
@@ -20,46 +48,6 @@ char	**get_grid(t_data *data, char *path)
 	printf("File Descriptor for map.cub is: %d\n", fd);
 
 	return (data->grid);
-}
-
-int		scan(int fd, char *identifiers)
-{
-	char	*buff;
-
-	buff = malloc(sizeof(char) * 2);
-	buff[2] = '\0';
-	read(fd, buff, 2);
-
-	if (ft_strcmp(buff, identifiers) == 0) // The same as eachother 
-		return (1);
-
-	return (0);
-}
-
-void	get_textures(t_data *data, char *path)
-{
-	int		count;
-	int		fd;
-
-	fd = open(path, O_RDONLY);
-
-	count = 0;
-	while (count < 6) // Six variables to collect
-	{
-		if (scan(fd, "NO") == 1)
-			data->north_texture = get_next_line(fd);
-
-		else if (scan(fd, "SO") == 1)
-			data->south_texture = get_next_line(fd);
-
-		else if (scan(fd, "WE") == 1)
-			data->west_texture = get_next_line(fd);
-
-		else if (scan(fd, "EA") == 1)
-			data->east_texture = get_next_line(fd);
-
-		count++;
-	}
 }
 
 t_data	*get_data(t_data *data, char *path)
