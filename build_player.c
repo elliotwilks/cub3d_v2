@@ -41,5 +41,14 @@ t_player	*build_player(t_data *data)
 
 	get_position(player, data->grid);
 
+	/******************************************************************************
+	Orientation:
+
+	How can I figure this out? What numbers do I have to  work  with?  What  is  my
+	range of numbers? Work on this.
+
+	******************************************************************************/
+
+
 	return (player);
 }
