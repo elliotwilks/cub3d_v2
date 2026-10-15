@@ -84,3 +84,32 @@ and the second file descriptor will be to fill those lines but in the data->grid
 array.
 
 */
+/*
+
+void	print_player(t_player *player)
+{
+	printf("%d\n", player->x_position);
+	printf("%d\n", player->y_position);
+}
+*/
+/******************************************************************************
+	Orientation:
+
+	How can I figure this out? What numbers do I have to  work  with?  What  is  my
+	range of numbers? Work on this.
+
+	Learning
+
+	Understanding Orientation Coordinates:
+
+	X
+	+1 to -1 : Left & Right
+
+	Y
+	+1 to -1 : Up & Down
+
+
+
+
+
+	******************************************************************************/

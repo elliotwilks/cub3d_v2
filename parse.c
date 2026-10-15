@@ -52,45 +52,79 @@ int		count_lines(int fd)
 	return (line_count);
 }
 
+int		is_map_line(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+
+	if (line[i] == '1' || line[i] == '0')
+		return (1);
+	return (0);
+}
+
 char	**get_grid(t_data *data, char *path, int fd_parsed)
 {
 	char	*line;
-	int		line_count;
 	int		fd_new;
 	int		i;
 
 	(void)path;
 
-	line_count = count_lines(fd_parsed);
+	data->line_count = count_lines(fd_parsed);
 	close(fd_parsed);
 
-	data->grid = malloc(sizeof(char *) * line_count);
+	data->grid = malloc(sizeof(char *) * data->line_count);
 	fd_new = open(path, O_RDONLY);
 
-	/**********************/
-	     /* IMPROVE */
-	/**********************/
-
-	i = 0;
-	while (i++ < 8)
+	line = get_next_line(fd_new);
+	while (line != NULL && is_map_line(line) != 1)
+	{
+		free(line);
 		line = get_next_line(fd_new);
-
-	/**********************/
-	     /* IMPROVE */
-	/**********************/
+	}
 
 	i = 0;
-	while ((line = get_next_line(fd_new)) != NULL)
+	while (line != NULL)
 	{
 		if (ft_strchr(line, '0') == 1 || ft_strchr(line, '1') == 1)
 		{
 			data->grid[i] = ft_strdup(line);
 		}
 		i++;
+		line = get_next_line(fd_new);
 	}
 	data->grid[i] = NULL;
 
 	return (data->grid);
+}
+
+// I need to get the longest side for the left and right (x axis)
+// So I just move through the grid and then if the
+void	get_grid_info(t_data *data)
+{
+	int		i;
+	int		j;
+	int		max_length;
+
+	data->grid_y_max = data->line_count;
+
+	i = 0;
+	max_length = 0;
+	while (data->grid[i])
+	{
+		j = 0;
+		while (data->grid[i][j])
+		{
+			j++;
+			if (j > max_length)
+				max_length = j - 1;
+		}
+		i++;
+	}
+	data->grid_x_max = max_length;
 }
 
 t_data	*get_data(t_data *data, char *path)
@@ -105,6 +139,8 @@ t_data	*get_data(t_data *data, char *path)
 	fd = get_textures(data, path);
 
 	data->grid = get_grid(data, path, fd);
+
+	get_grid_info(data);
 
 	return (data);
 }

@@ -1,11 +1,5 @@
 #include "cub3d.h"
 
-void	print_player(t_player *player)
-{
-	printf("%d\n", player->x_position);
-	printf("%d\n", player->y_position);
-}
-
 void	get_position(t_player *player, char **grid)
 {
 	int		i;
@@ -28,6 +22,20 @@ void	get_position(t_player *player, char **grid)
 	}
 }
 
+/*
+Orientation vector? What should my default be?
+
+I want the player to be looking up and straight. So the y should be 1 and the  x
+should be 0. These are the defaults. I might have to change this later  but  for
+now this is my instinct. I should be able to use this information along with the
+feild of veiw and half_of_feild_of_view variables to draw a triangle.
+*/
+void	get_orientation(t_player *player)
+{
+	player->x_orientation = 0;
+	player->y_orientation = 1;
+}
+
 t_player	*build_player(t_data *data)
 {
 	t_player	*player;
@@ -40,15 +48,7 @@ t_player	*build_player(t_data *data)
 	player->rotation_speed = 1;
 
 	get_position(player, data->grid);
-
-	/******************************************************************************
-	Orientation:
-
-	How can I figure this out? What numbers do I have to  work  with?  What  is  my
-	range of numbers? Work on this.
-
-	******************************************************************************/
-
+	get_orientation(player);
 
 	return (player);
 }

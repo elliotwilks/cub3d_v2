@@ -44,10 +44,10 @@ void	fill_square(void *param, uint32_t colour)
 	int			y;
 
 	x = 0;
-	while (x < 100)
+	while (x < PLAYER_SIZE)
 	{
 		y = 0;
-		while (y < 100)
+		while (y < PLAYER_SIZE)
 		{
 			mlx_put_pixel(param, x, y, colour);
 			y++;

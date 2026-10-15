@@ -10,15 +10,19 @@
 #include "MLX42.h"
 #include "MLX42_Int.h"
 
-#define WIDTH 500
-#define HEIGHT 500
+#define WIDTH 700
+#define HEIGHT 700
 #define BUFFER_SIZE 33
+#define FIELD_OF_VIEW 60
+#define HALF_FIELD_OF_VIEW 30
+#define PLAYER_SIZE 333
+
 
 typedef struct s_data
 {
 	char	**grid;
-	int		grid_x_max;
-	int		grid_y_max;
+	int		grid_x_max;	// x axis for left and right
+	int		grid_y_max; // y axis for up and down
 	int		line_count;
 
 	char	*north_texture;
@@ -35,8 +39,8 @@ typedef struct s_player
 {
 	int		x_position;
 	int		y_position;
-	int		x_orientation;
-	int		y_orientation;
+	int		x_orientation; // x <--- Left and right
+	int		y_orientation; // y <-- Up and down
 
 	int		turn_direction;
 	int		walk_direction;
