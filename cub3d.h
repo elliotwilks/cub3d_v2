@@ -32,6 +32,8 @@ typedef struct s_data
 
 	char	*floor;
 	char	*ceiling;
+
+	mlx_image_t		*image;
 }
 t_data;
 
