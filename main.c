@@ -1,59 +1,60 @@
 #include "cub3d.h"
 
+static mlx_image_t *wall;
+
 /*
 If I want to draw the map. Surely I need to provide the functoin  a  pointer  to
 the  data  struct  as   thats   what   holds   the   map   grid?   However   the
 mlx_image_to_window() function needs a void return value and a void *  (pointer)
 value to be parsed?
 
-Getting a segfault. Need to look at this and fix it.
+
+
 */
 
-void	draw_map(void *param)
+static void	fill(mlx_image_t *img, uint32_t color)
 {
-	t_data	*data;
+	uint32_t	x;
+	uint32_t	y;
 
-	int		i;
-	int		j;
-
-	data = (t_data *)param;
-
-	i = 0;
-	while (data->grid[i])
+	y = 0;
+	while (y < img->height)
 	{
-		j = 0;
-		while (data->grid[i][j])
+		x = 0;
+		while (x < img->width)
 		{
-			if ( data->grid[i][j] == '1')
-			{
-				mlx_put_pixel(data->image, i, j, 0xffeeddFF);
-			}
-			j++;
+			mlx_put_pixel(img, x, y, color);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
 void	draw_mini_map(t_data *data, t_player *player, mlx_t *mlx)
 {
-	mlx_image_t		*image;
-	mlx_image_t		*map;
-
 	(void)player;
+	int		i;
+	int		j;
 
 	mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
-	
-	image = mlx_new_image(mlx, 333, 333);
 
-	map = mlx_new_image(mlx, WIDTH, HEIGHT);
+	wall = mlx_new_image(mlx, 18, 18);
 
+	fill(wall, 0x32A852FF);
 
-	mlx_image_to_window(mlx, image, 333, 333);
-	mlx_image_to_window(mlx, map, WIDTH, HEIGHT);
-
-
-	mlx_loop_hook(mlx, draw_in_image, image);
-	mlx_loop_hook(mlx, draw_map, data);
+	i = 0;
+	j = 0;
+	while (data->grid[i] != NULL)
+	{
+		j = 0;
+		while (data->grid[i][j] != '\n' && data->grid[i][j] != '\0')
+		{
+			if (data->grid[i][j] == '1')
+				mlx_image_to_window(mlx, wall, j * 24, i * 24);
+			j++;
+		}
+		i++;
+	}
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
