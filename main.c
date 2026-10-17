@@ -7,9 +7,6 @@ If I want to draw the map. Surely I need to provide the functoin  a  pointer  to
 the  data  struct  as   thats   what   holds   the   map   grid?   However   the
 mlx_image_to_window() function needs a void return value and a void *  (pointer)
 value to be parsed?
-
-
-
 */
 
 static void	fill(mlx_image_t *img, uint32_t color)
