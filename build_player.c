@@ -46,6 +46,11 @@ t_player	*build_player(t_data *data)
 	player->walk_direction = 0;
 	player->move_speed = 2;
 	player->rotation_speed = 1;
+	player->img = mlx_new_image();
+
+	//// NEED TO SET THIS UP BETTER 
+
+	//// NEED TO GET EVERYTHING INSIDE GAME STRUCT AND THEN PASS AROUND THE GAME STRUCT
 
 	get_position(player, data->grid);
 	get_orientation(player);

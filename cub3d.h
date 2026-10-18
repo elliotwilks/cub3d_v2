@@ -16,7 +16,19 @@
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
 #define PLAYER_SIZE 333
+#define SPEED 33
 
+
+typedef struct s_data t_data;
+typedef struct s_player t_player;
+
+typedef struct s_game
+{
+	mlx_t		*mlx;
+	t_player	*player;
+	t_data		*data;
+}
+t_game;
 
 typedef struct s_data
 {
@@ -39,15 +51,16 @@ t_data;
 
 typedef struct s_player
 {
-	int		x_position;
-	int		y_position;
-	int		x_orientation; // x <--- Left and right
-	int		y_orientation; // y <-- Up and down
+	int				x_position;
+	int				y_position;
+	int				x_orientation; // x <--- Left and right
+	int				y_orientation; // y <-- Up and down
 
-	int		turn_direction;
-	int		walk_direction;
-	int		move_speed;
-	int		rotation_speed;
+	int				turn_direction;
+	int				walk_direction;
+	int				move_speed;
+	int				rotation_speed;
+	mlx_image_t		img;
 }
 t_player;
 

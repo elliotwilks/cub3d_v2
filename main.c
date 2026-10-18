@@ -1,13 +1,7 @@
 #include "cub3d.h"
 
 static mlx_image_t *wall;
-
-/*
-If I want to draw the map. Surely I need to provide the functoin  a  pointer  to
-the  data  struct  as   thats   what   holds   the   map   grid?   However   the
-mlx_image_to_window() function needs a void return value and a void *  (pointer)
-value to be parsed?
-*/
+static mlx_image_t *player_1;
 
 static void	fill(mlx_image_t *img, uint32_t color)
 {
@@ -33,14 +27,11 @@ void	draw_mini_map(t_data *data, t_player *player, mlx_t *mlx)
 	int		i;
 	int		j;
 
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
-
 	wall = mlx_new_image(mlx, 18, 18);
 
 	fill(wall, 0x32A852FF);
 
 	i = 0;
-	j = 0;
 	while (data->grid[i] != NULL)
 	{
 		j = 0;
@@ -52,9 +43,38 @@ void	draw_mini_map(t_data *data, t_player *player, mlx_t *mlx)
 		}
 		i++;
 	}
+}
 
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+void	draw_player(t_data *data, t_player *player, mlx_t *mlx)
+{
+	(void)data;
+
+	player_1 = mlx_new_image(mlx, 20, 20);
+
+	fill(player_1, 0x008CE3FF);
+
+	mlx_image_to_window(mlx, player_1, player->x_position * 24, player->y_position * 24);
+	
+}
+
+void ft_move_player(void* param)
+{
+	t_game	*game;
+	
+	game = (t_game *)param;
+
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(game->mlx);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+		game->player->y_position += SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+		game->player->y_position -= SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		game->player->x_position -= SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		game->player->x_position += SPEED;
+	game->player->img.instances[0].x = game->player->x_position;
+	game->player->img.instances[0].y = game->player->y_position;
 }
 
 int	main(int argc, char **argv)
@@ -62,9 +82,15 @@ int	main(int argc, char **argv)
 	t_data			*data;
 	t_player		*player;
 	mlx_t			*mlx;
+	t_game			game;
 
 	if (argc != 2)
 		return (printf("map file needed\n"), 0);
+
+
+	
+
+	mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
 
 	data = NULL;
 	data = get_data(data, argv[1]);
@@ -72,8 +98,17 @@ int	main(int argc, char **argv)
 	player = NULL;
 	player = build_player(data);
 
-	mlx = NULL;
+	game.mlx = mlx;
+	game.data = data;
+	game.player = player;
+
 	draw_mini_map(data, player, mlx);
+	draw_player(data, player, mlx);
+
+	mlx_loop_hook(mlx, ft_move_player, &game);
+
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
 
 	return (1);
 }
