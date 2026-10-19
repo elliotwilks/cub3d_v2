@@ -3,9 +3,11 @@
 /*
 :::::::::::::::::::::::::::::	CURRENTLY	 :::::::::::::::::::::::::::::::::::
 
-Goal create a really good mini map. In the mini map I should  be  able  to  move
-around, get stopped by a wall and I should be able to see a feild  of  view  and
-ray coming out of the player.
+How should I interact with walls? I know the wall is a 1 on the grid. But the thing
+that is confusing is that the player position is based on x and y values and the
+"grid" or "wall" does not have this?
+
+Create feild  of  view  and ray coming out of the player.
 
 */
 
@@ -58,6 +60,53 @@ void	draw_player(t_game *game)
 
 	mlx_image_to_window(game->mlx, game->player->player_image, game->player->x_position * 24, game->player->y_position * 24);
 }
+
+/*
+At the moment the player can move through walls. This  should  not  be  allowed.
+Therefore I need to create a function  or  something  that  will  check  if  the
+updated coordinates of the player will hit a wall. If yes  then  revert  to  the
+original position. If no then update position.
+
+The difficult part is that in my grid I am not moving the 'N' (player) value.  I
+never update the "char **grid". Maybe I should update the grid? Or  maybe  there
+is another way?
+
+GOOGLE SEARCH
+
+checking the map grid coordinates during player movement
+
+1)
+check the map value at the player's future x and y coordinates before updating their position.
+Convert  player  coordinates to map index:
+
+Divide the player's float position by tile size
+
+Ok so I can use the grid cell x and y value?
+
+to get the integer grid cell (map_x, map_y).
+
+Check  the  map  cell:  Look  at map[new_y][new_x].
+
+Condition: If the  value  is  equal  to  '1'  (or  whatever character represents
+a  wall  in  your  config),  do  not  update  the  player's position.
+
+2. Adding a Collision Radius (Buffer)
+
+If you check only the exact center point of the player, they might clip slightly
+into the corners of walls. To fix this,  add  a  small  safety  buffer  (margin)
+around the player's position: • When moving forward/backward or strafing, test a
+few offset points around the player (e.g., player_x  +  buffer  and  player_y  +
+buffer) against the map array. • If any of those offset points land  on  a  '1',
+block the movement for that axis.
+
+NEED TO UPDATE
+
+	- The players position should be a float
+	- Need to get my head around the grid cell
+	- The map cell
+
+
+*/
 
 void ft_move_player(void* param)
 {
