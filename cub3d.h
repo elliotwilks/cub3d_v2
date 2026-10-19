@@ -16,8 +16,7 @@
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
 #define PLAYER_SIZE 333
-#define SPEED 33
-
+#define SPEED 10
 
 typedef struct s_data t_data;
 typedef struct s_player t_player;
@@ -91,7 +90,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	print_grid(t_data *data);
 void	check_args(int argc);
 
-
 /*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
 
 int		get_textures(t_data *data, char *path);
@@ -99,12 +97,10 @@ char	**get_grid(t_data *data, char *path, int fd_parsed);
 int		count_lines(int fd);
 t_data	*get_data(t_data *data, char *path);
 
-
 /*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
 
 t_player	*build_player(t_game *game);
 void		get_position(t_player *player, char **grid);
 void		print_player(t_player *player);
-
 
 #endif //CUB3D_H
