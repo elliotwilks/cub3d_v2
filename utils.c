@@ -283,3 +283,13 @@ void	print_grid(t_data *data)
 		i++;
 	}
 }
+
+void	check_args(int argc)
+{
+	if (argc != 2)
+	{
+		printf("map file needed\n");
+		exit(1);
+	}
+}
+

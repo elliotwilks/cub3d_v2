@@ -22,21 +22,13 @@ void	get_position(t_player *player, char **grid)
 	}
 }
 
-/*
-Orientation vector? What should my default be?
-
-I want the player to be looking up and straight. So the y should be 1 and the  x
-should be 0. These are the defaults. I might have to change this later  but  for
-now this is my instinct. I should be able to use this information along with the
-feild of veiw and half_of_feild_of_view variables to draw a triangle.
-*/
 void	get_orientation(t_player *player)
 {
 	player->x_orientation = 0;
 	player->y_orientation = 1;
 }
 
-t_player	*build_player(t_data *data)
+t_player	*build_player(t_game *game)
 {
 	t_player	*player;
 
@@ -46,13 +38,9 @@ t_player	*build_player(t_data *data)
 	player->walk_direction = 0;
 	player->move_speed = 2;
 	player->rotation_speed = 1;
-	player->img = mlx_new_image();
+	player->player_image = mlx_new_image(game->mlx, 33, 33);
 
-	//// NEED TO SET THIS UP BETTER 
-
-	//// NEED TO GET EVERYTHING INSIDE GAME STRUCT AND THEN PASS AROUND THE GAME STRUCT
-
-	get_position(player, data->grid);
+	get_position(player, game->data->grid);
 	get_orientation(player);
 
 	return (player);

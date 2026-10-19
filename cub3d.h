@@ -45,7 +45,7 @@ typedef struct s_data
 	char	*floor;
 	char	*ceiling;
 
-	mlx_image_t		*image;
+	mlx_image_t		*wall;
 }
 t_data;
 
@@ -60,7 +60,7 @@ typedef struct s_player
 	int				walk_direction;
 	int				move_speed;
 	int				rotation_speed;
-	mlx_image_t		img;
+	mlx_image_t		*player_image;
 }
 t_player;
 
@@ -89,6 +89,7 @@ int		is_set(char c, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	print_grid(t_data *data);
+void	check_args(int argc);
 
 
 /*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
@@ -101,7 +102,7 @@ t_data	*get_data(t_data *data, char *path);
 
 /*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
 
-t_player	*build_player(t_data *data);
+t_player	*build_player(t_game *game);
 void		get_position(t_player *player, char **grid);
 void		print_player(t_player *player);
 

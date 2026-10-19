@@ -113,3 +113,26 @@ void	print_player(t_player *player)
 
 
 	******************************************************************************/
+/*
+Orientation vector? What should my default be?
+
+I want the player to be looking up and straight. So the y should be 1 and the  x
+should be 0. These are the defaults. I might have to change this later  but  for
+now this is my instinct. I should be able to use this information along with the
+feild of veiw and half_of_feild_of_view variables to draw a triangle.
+
+I want to improve the following  in  my  program  as  it  should  make  it  more
+organised and easeir to work with. Also I want to check if the things I have  in
+mind are common pratice or not? My first idea is moving the global varaibles.  I
+have heard its bad practice to use global variables so I want to know is there a
+better way to use the mlx_image_t *var variables? Maybe I should but them  in  a
+struct?
+
+Next I want to have one main game struct that  has  pointer  to  all  the  other
+structs in my program. This is mainly so I can parse all the data  I  have  into
+the mlx functions. Most of the mlx functions only allow  for  one  thing  to  be
+parsed. By having this main/ majour struct I can parse a single thing  but  have
+all of my data accessable. I also want to become more familiar  with  instances.
+What they do and how they work. Also the meaning behind the word.
+
+*/

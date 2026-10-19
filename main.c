@@ -1,7 +1,13 @@
 #include "cub3d.h"
 
-static mlx_image_t *wall;
-static mlx_image_t *player_1;
+/*
+:::::::::::::::::::::::::::::	CURRENTLY	 :::::::::::::::::::::::::::::::::::
+
+Goal create a really good mini map. In the mini map I should  be  able  to  move
+around, get stopped by a wall and I should be able to see a feild  of  view  and
+ray coming out of the player.
+
+*/
 
 static void	fill(mlx_image_t *img, uint32_t color)
 {
@@ -21,94 +27,88 @@ static void	fill(mlx_image_t *img, uint32_t color)
 	}
 }
 
-void	draw_mini_map(t_data *data, t_player *player, mlx_t *mlx)
+void	draw_mini_map(t_game *game)
 {
-	(void)player;
 	int		i;
 	int		j;
 
-	wall = mlx_new_image(mlx, 18, 18);
+	game->data->wall = mlx_new_image(game->mlx, 18, 18);
 
-	fill(wall, 0x32A852FF);
+	fill(game->data->wall, 0x32A852FF);
 
 	i = 0;
-	while (data->grid[i] != NULL)
+	while (game->data->grid[i] != NULL)
 	{
 		j = 0;
-		while (data->grid[i][j] != '\n' && data->grid[i][j] != '\0')
+		while (game->data->grid[i][j] != '\n' && game->data->grid[i][j] != '\0')
 		{
-			if (data->grid[i][j] == '1')
-				mlx_image_to_window(mlx, wall, j * 24, i * 24);
+			if (game->data->grid[i][j] == '1')
+				mlx_image_to_window(game->mlx, game->data->wall, j * 24, i * 24);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	draw_player(t_data *data, t_player *player, mlx_t *mlx)
+void	draw_player(t_game *game)
 {
-	(void)data;
+	game->player->player_image = mlx_new_image(game->mlx, 20, 20);
 
-	player_1 = mlx_new_image(mlx, 20, 20);
+	fill(game->player->player_image, 0x008CE3FF);
 
-	fill(player_1, 0x008CE3FF);
-
-	mlx_image_to_window(mlx, player_1, player->x_position * 24, player->y_position * 24);
-	
+	mlx_image_to_window(game->mlx, game->player->player_image, game->player->x_position * 24, game->player->y_position * 24);
 }
 
 void ft_move_player(void* param)
 {
 	t_game	*game;
-	
+
 	game = (t_game *)param;
 
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
-		game->player->y_position += SPEED;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
 		game->player->y_position -= SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+		game->player->y_position += SPEED;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		game->player->x_position -= SPEED;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->player->x_position += SPEED;
-	game->player->img.instances[0].x = game->player->x_position;
-	game->player->img.instances[0].y = game->player->y_position;
+
+	game->player->player_image->instances[0].x = game->player->x_position;
+	game->player->player_image->instances[0].y = game->player->y_position;
+}
+
+void	init(t_game *game, char *argv)
+{
+	game->mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
+	game->data = get_data(game->data, argv);
+	game->player = build_player(game);
+}
+
+void	loop(t_game *game)
+{
+	mlx_loop_hook(game->mlx, ft_move_player, game);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data			*data;
-	t_player		*player;
-	mlx_t			*mlx;
 	t_game			game;
 
-	if (argc != 2)
-		return (printf("map file needed\n"), 0);
+	check_args(argc);
 
+	init(&game, argv[1]);
 
-	
+	draw_mini_map(&game);
 
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
+	draw_player(&game);
 
-	data = NULL;
-	data = get_data(data, argv[1]);
+	loop(&game);
 
-	player = NULL;
-	player = build_player(data);
+	mlx_loop(game.mlx);
 
-	game.mlx = mlx;
-	game.data = data;
-	game.player = player;
-
-	draw_mini_map(data, player, mlx);
-	draw_player(data, player, mlx);
-
-	mlx_loop_hook(mlx, ft_move_player, &game);
-
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_terminate(game.mlx);
 
 	return (1);
 }
