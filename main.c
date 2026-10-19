@@ -32,7 +32,7 @@ void	draw_mini_map(t_game *game)
 	int		i;
 	int		j;
 
-	game->data->wall = mlx_new_image(game->mlx, 18, 18);
+	game->data->wall = mlx_new_image(game->mlx, WALL_BLOCK_SIZE, WALL_BLOCK_SIZE);
 
 	fill(game->data->wall, 0x32A852FF);
 
@@ -43,7 +43,7 @@ void	draw_mini_map(t_game *game)
 		while (game->data->grid[i][j] != '\n' && game->data->grid[i][j] != '\0')
 		{
 			if (game->data->grid[i][j] == '1')
-				mlx_image_to_window(game->mlx, game->data->wall, j * 24, i * 24);
+				mlx_image_to_window(game->mlx, game->data->wall, j * (WALL_BLOCK_SIZE + 3), i * (WALL_BLOCK_SIZE + 3));
 			j++;
 		}
 		i++;
@@ -52,7 +52,7 @@ void	draw_mini_map(t_game *game)
 
 void	draw_player(t_game *game)
 {
-	game->player->player_image = mlx_new_image(game->mlx, 20, 20);
+	game->player->player_image = mlx_new_image(game->mlx, PLAYER_SIZE, PLAYER_SIZE);
 
 	fill(game->player->player_image, 0x008CE3FF);
 

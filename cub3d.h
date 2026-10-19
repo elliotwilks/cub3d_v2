@@ -10,13 +10,14 @@
 #include "MLX42.h"
 #include "MLX42_Int.h"
 
-#define WIDTH 700
-#define HEIGHT 700
+#define WIDTH 1300
+#define HEIGHT 900
 #define BUFFER_SIZE 33
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
-#define PLAYER_SIZE 333
-#define SPEED 10
+#define PLAYER_SIZE 27
+#define WALL_BLOCK_SIZE 33
+#define SPEED 5
 
 typedef struct s_data t_data;
 typedef struct s_player t_player;
