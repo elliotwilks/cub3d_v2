@@ -15,7 +15,7 @@
 #define BUFFER_SIZE 33
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
-#define PLAYER_SIZE 27
+#define PLAYER_SIZE 30
 #define WALL_BLOCK_SIZE 33
 #define SPEED 5
 
@@ -51,10 +51,10 @@ t_data;
 
 typedef struct s_player
 {
-	int				x_position;
-	int				y_position;
-	int				x_orientation; // x <--- Left and right
-	int				y_orientation; // y <-- Up and down
+	float			x_position;
+	float			y_position;
+	float			x_orientation; // x <--- Left and right
+	float			y_orientation; // y <-- Up and down
 
 	int				turn_direction;
 	int				walk_direction;
@@ -88,7 +88,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 int		is_set(char c, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void	print_grid(t_data *data);
+//void	print_grid(t_data *data);
 void	check_args(int argc);
 
 /*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
@@ -98,10 +98,13 @@ char	**get_grid(t_data *data, char *path, int fd_parsed);
 int		count_lines(int fd);
 t_data	*get_data(t_data *data, char *path);
 
-/*:::::::::::::::::::		PARSE		:::::::::::::::::::::*/
+
+/*:::::::::::::::::::		OTHERS		:::::::::::::::::::::*/
 
 t_player	*build_player(t_game *game);
 void		get_position(t_player *player, char **grid);
 void		print_player(t_player *player);
+void		init(t_game *game, char *argv);
+void		print_grid(char **grid);
 
 #endif //CUB3D_H

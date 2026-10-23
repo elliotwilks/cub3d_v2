@@ -13,8 +13,8 @@ void	get_position(t_player *player, char **grid)
 		{
 			if (grid[i][j] == 'N')
 			{
-				player->x_position = i;
-				player->y_position = j;
+				player->x_position = j * WALL_BLOCK_SIZE;
+				player->y_position = i * WALL_BLOCK_SIZE;
 			}
 			j++;
 		}

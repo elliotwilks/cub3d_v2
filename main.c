@@ -1,13 +1,8 @@
 #include "cub3d.h"
 
 /*
-:::::::::::::::::::::::::::::	CURRENTLY	 :::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::		CURRENTLY	   :::::::::::::::::::::::::::::::::
 
-How should I interact with walls? I know the wall is a 1 on the grid. But the thing
-that is confusing is that the player position is based on x and y values and the
-"grid" or "wall" does not have this?
-
-Create feild  of  view  and ray coming out of the player.
 
 */
 
@@ -45,7 +40,7 @@ void	draw_mini_map(t_game *game)
 		while (game->data->grid[i][j] != '\n' && game->data->grid[i][j] != '\0')
 		{
 			if (game->data->grid[i][j] == '1')
-				mlx_image_to_window(game->mlx, game->data->wall, j * (WALL_BLOCK_SIZE + 3), i * (WALL_BLOCK_SIZE + 3));
+				mlx_image_to_window(game->mlx, game->data->wall, j * WALL_BLOCK_SIZE, i * WALL_BLOCK_SIZE);
 			j++;
 		}
 		i++;
@@ -58,88 +53,75 @@ void	draw_player(t_game *game)
 
 	fill(game->player->player_image, 0x008CE3FF);
 
-	mlx_image_to_window(game->mlx, game->player->player_image, game->player->x_position * 24, game->player->y_position * 24);
+	mlx_image_to_window(game->mlx, game->player->player_image, game->player->x_position, game->player->y_position);
 }
 
+
+
 /*
-At the moment the player can move through walls. This  should  not  be  allowed.
-Therefore I need to create a function  or  something  that  will  check  if  the
-updated coordinates of the player will hit a wall. If yes  then  revert  to  the
-original position. If no then update position.
+Breaking this funciton down.
 
-The difficult part is that in my grid I am not moving the 'N' (player) value.  I
-never update the "char **grid". Maybe I should update the grid? Or  maybe  there
-is another way?
-
-GOOGLE SEARCH
-
-checking the map grid coordinates during player movement
-
-1)
-check the map value at the player's future x and y coordinates before updating their position.
-Convert  player  coordinates to map index:
-
-Divide the player's float position by tile size
-
-Ok so I can use the grid cell x and y value?
-
-to get the integer grid cell (map_x, map_y).
-
-Check  the  map  cell:  Look  at map[new_y][new_x].
-
-Condition: If the  value  is  equal  to  '1'  (or  whatever character represents
-a  wall  in  your  config),  do  not  update  the  player's position.
-
-2. Adding a Collision Radius (Buffer)
-
-If you check only the exact center point of the player, they might clip slightly
-into the corners of walls. To fix this,  add  a  small  safety  buffer  (margin)
-around the player's position: • When moving forward/backward or strafing, test a
-few offset points around the player (e.g., player_x  +  buffer  and  player_y  +
-buffer) against the map array. • If any of those offset points land  on  a  '1',
-block the movement for that axis.
-
-NEED TO UPDATE
-
-	- The players position should be a float
-	- Need to get my head around the grid cell
-	- The map cell
-
+Function returns 1 if the coordinates are hitting a wall and
+zero if it is not.
 
 */
+int	is_wall(t_game *game, int new_x, int new_y)
+{
+	int	x;
+	int	y;
+
+	(void)game;
+
+	x = new_x / WALL_BLOCK_SIZE;
+	y = new_y / WALL_BLOCK_SIZE;
+
+	if (x < 0 || y < 0)
+		return (1);
+
+	return (0);
+}
 
 void ft_move_player(void* param)
 {
 	t_game	*game;
+	int		new_x;
+	int		new_y;
 
 	game = (t_game *)param;
 
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx);
+	new_x = game->player->x_position;
+	new_y = game->player->y_position;
+
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
-		game->player->y_position -= SPEED;
+		new_y -= SPEED;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-		game->player->y_position += SPEED;
+		new_y += SPEED;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		game->player->x_position -= SPEED;
+		new_x -= SPEED;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-		game->player->x_position += SPEED;
+		new_x += SPEED;
 
-	game->player->player_image->instances[0].x = game->player->x_position;
-	game->player->player_image->instances[0].y = game->player->y_position;
-}
-
-void	init(t_game *game, char *argv)
-{
-	game->mlx = mlx_init(WIDTH, HEIGHT, "MLX Window", true);
-	game->data = get_data(game->data, argv);
-	game->player = build_player(game);
+	// If the new x and y coordinates move into a wall then set to the old coordinates
+	if (is_wall(game, new_x, new_y) == 1)
+	{
+		game->player->player_image->instances[0].x = game->player->x_position;
+		game->player->player_image->instances[0].y = game->player->y_position;
+	}
+	else
+	{
+		game->player->x_position = new_x;
+		game->player->y_position = new_y;
+		game->player->player_image->instances[0].x = new_x;
+		game->player->player_image->instances[0].y = new_y;
+	}
 }
 
 void	loop(t_game *game)
 {
 	mlx_loop_hook(game->mlx, ft_move_player, game);
 }
+
+
 
 int	main(int argc, char **argv)
 {
@@ -162,43 +144,4 @@ int	main(int argc, char **argv)
 	return (1);
 }
 
-/*
-::::::::::::::::::::::::::::		TASK		::::::::::::::::::::::::::::::::
 
-From the information I have collected I should now build the mini  map.  Putting
-the player in the correct position and moving the player through  the  map  with
-the button press hooks. I can than  also  use  the  feild  of  view  and  player
-oreintation vector to draw the feild of view lines  and  the  looking  direction
-line. After that I should attempt the DDA Algorithum.
-
-Lets first look through the other example structs for the player  and  check  my
-struct is holding all the information needed. Then I should check  that  I  have
-parsed all the infromation I need for the player and map. After, draw it out.
-
-
-::::::::::::::::::::::::::		LEARNING		::::::::::::::::::::::::::::::::
-
-
---------------    What is a Vector?		-----------------
-
-For 2D a vector is two numbers. For 3D  it  is  three  numbers  or  more.  These
-numbers give you an idea of somethings position in space. For example if we have
-a 2D map. We need both the x and y coordinates inorder to understand  the  exact
-possition of something. So this is what a "vector is".
-
-The word "vector" in terms of mathamatics was created in th 1840s  by  an  Irish
-Mathmatician called William Rowan Hamilton. He gave the word vector the meaning:
-A number with 4 parts. So its basicly a number that has 2 or 3 or 4 parts to it.
-For example (2, 45) for x and y or (23, 33, 21) for x y and z.
-
-
-STEPS:
-
-1) Get the player orientation
-2) Substract FOV / 2 to player orientation
-3) Cast a ray traces it until it hits a wall
-4) Record the distance between the player and the wall hit
-5) Add angle increment (0.001636 rad) to throw the next ray
-6) Repeat from step 3 until ray orientation is player orientation + (FOV / 2)
-
-*/

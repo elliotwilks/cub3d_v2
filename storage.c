@@ -112,3 +112,157 @@ all of my data accessable. I also want to become more familiar  with  instances.
 What they do and how they work. Also the meaning behind the word.
 
 */
+/*
+At the moment the player can move through walls. This  should  not  be  allowed.
+Therefore I need to create a function  or  something  that  will  check  if  the
+updated coordinates of the player will hit a wall. If yes  then  revert  to  the
+original position. If no then update position.
+
+The difficult part is that in my grid I am not moving the 'N' (player) value.  I
+never update the "char **grid". Maybe I should update the grid? Or  maybe  there
+is another way?
+
+GOOGLE SEARCH
+
+checking the map grid coordinates during player movement
+
+1)
+check the map value at the player's future x and y coordinates before updating their position.
+Convert  player  coordinates to map index:
+
+Divide the player's float position by tile size
+
+Ok so I can use the grid cell x and y value?
+
+to get the integer grid cell (map_x, map_y).
+
+Check  the  map  cell:  Look  at map[new_y][new_x].
+
+Condition: If the  value  is  equal  to  '1'  (or  whatever character represents
+a  wall  in  your  config),  do  not  update  the  player's position.
+
+2. Adding a Collision Radius (Buffer)
+
+If you check only the exact center point of the player, they might clip slightly
+into the corners of walls. To fix this,  add  a  small  safety  buffer  (margin)
+around the player's position: • When moving forward/backward or strafing, test a
+few offset points around the player (e.g., player_x  +  buffer  and  player_y  +
+buffer) against the map array. • If any of those offset points land  on  a  '1',
+block the movement for that axis.
+
+NEED TO UPDATE
+
+	- The players position should be a float
+	- Need to get my head around the grid cell
+	- The map cell
+
+
+*/
+/*
+::::::::::::::::::::::::::::		TASK		::::::::::::::::::::::::::::::::
+
+From the information I have collected I should now build the mini  map.  Putting
+the player in the correct position and moving the player through  the  map  with
+the button press hooks. I can than  also  use  the  feild  of  view  and  player
+oreintation vector to draw the feild of view lines  and  the  looking  direction
+line. After that I should attempt the DDA Algorithum.
+
+Lets first look through the other example structs for the player  and  check  my
+struct is holding all the information needed. Then I should check  that  I  have
+parsed all the infromation I need for the player and map. After, draw it out.
+
+
+::::::::::::::::::::::::::		LEARNING		::::::::::::::::::::::::::::::::
+
+
+--------------    What is a Vector?		-----------------
+
+For 2D a vector is two numbers. For 3D  it  is  three  numbers  or  more.  These
+numbers give you an idea of somethings position in space. For example if we have
+a 2D map. We need both the x and y coordinates inorder to understand  the  exact
+possition of something. So this is what a "vector is".
+
+The word "vector" in terms of mathamatics was created in th 1840s  by  an  Irish
+Mathmatician called William Rowan Hamilton. He gave the word vector the meaning:
+A number with 4 parts. So its basicly a number that has 2 or 3 or 4 parts to it.
+For example (2, 45) for x and y or (23, 33, 21) for x y and z.
+
+
+STEPS:
+
+1) Get the player orientation
+2) Substract FOV / 2 to player orientation
+3) Cast a ray traces it until it hits a wall
+4) Record the distance between the player and the wall hit
+5) Add angle increment (0.001636 rad) to throw the next ray
+6) Repeat from step 3 until ray orientation is player orientation + (FOV / 2)
+
+*/
+
+/*
+:::::::::::::::::::::::::::::	CURRENTLY	 :::::::::::::::::::::::::::::::::::
+
+How should I interact with walls? I know the wall is a 1 on the grid. But the thing
+that is confusing is that the player position is based on x and y values and the
+"grid" or "wall" does not have this?
+
+Create feild  of  view  and ray coming out of the player.
+
+*/
+
+/*
+Why is this effecting the players x and y coordinates before a key  is  pressed?
+The instance variable seems to interfeer with the position.
+*/
+/*
+Description:
+First I create a new image for the player_image variable in the player struct. I
+then fill that image with a colour. I then put the player to the window. This is
+where there must be a mistake. There must be a problem with the plyaer y  and  x
+positions.
+
+Lets have a look and see how these are built.
+
+There must be something wrong with the players x and y. Got it. Found the problem.
+The i and j values were being assigned to the opposite x and y postions.
+
+*/
+/*
+Description:
+This function creates a new image that is 33 by 33  for  the  mlx  in  the  game
+struct. I then fill this image with the colour green. I thne  loop  through  the
+char **grid. If the grid[i][j] == '1' then put the wall  image  to  the  window.
+This seems to be rendering everything correctly.
+*/
+/*
+It is to also get comfortable with my grid map and how the map is being built on
+the screen. What is happening when a 1 or 0 is found. Also why is the player not
+being create in the correct place? Should I move the 'N' (player)  in  the  grid
+map aswell? At the moment the player  is  only  moving  by  updating  the  image
+instance variables. I need a way to detect  a  wall  so  the  player  cannot  go
+through the walls.
+
+When I update the x and y coordinates  of  the  player  I  either  increment  or
+de-increment by 5. Is this 5 pixels or 5 cm or something else? How can I check if
+the player is hitting a wall or not? Answer: instances are updated with the unit
+of pixels. So it moves 5 pixels forward like I expected.
+
+How much can I update the instance befor I have to update the position of the 'N'
+in the grid map?
+
+
+I need to divide by the wall size and then do the check. Also I need  to  change
+the variables from ints to floats. This is because when I do the wall check then
+I need an exact number to work with. For example when I divide the  new_position
+by the wall size I will likley get a float value. e.g. 2,2 ---> 40,40 ---->  40,
+45 ----> 2, 2.25.
+
+
+Before I start moving the player I need to create a boundry so that I dont get a
+segfault when trying to use the if statement with my wall check.
+
+
+
+*/
+/* The maximum x and y values in char **grid
+X = 13 and Y = 29 */

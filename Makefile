@@ -6,7 +6,7 @@
 #    By: elwilks <elwilks@student.42bangkok.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/13 13:03:23 by elwilks           #+#    #+#              #
-#    Updated: 2026/10/14 17:21:46 by elwilks          ###   ########.fr        #
+#    Updated: 2026/10/23 11:55:38 by elwilks          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC= cc
 
 CFLAGS= -Wall -Wextra -Werror
 
-SRC= main.c utils.c libft.c parse.c build_player.c
+SRC= main.c utils.c libft.c parse.c build_player.c init.c
 
 INCLUDE= -IMLX42/include/MLX42/ -IMLX42/include
 

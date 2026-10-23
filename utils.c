@@ -271,7 +271,7 @@ char	*get_next_line(int fd)
 	storage = update_storage(storage, line);
 	return (line);
 }
-
+/*
 void	print_grid(t_data *data)
 {
 	int		i;
@@ -283,6 +283,7 @@ void	print_grid(t_data *data)
 		i++;
 	}
 }
+*/
 
 void	check_args(int argc)
 {
@@ -293,3 +294,31 @@ void	check_args(int argc)
 	}
 }
 
+void	print_grid(char **grid)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	i = 0;
+	while (grid[i])
+	{
+		j = 0;
+		while (grid[i][j])
+		{
+			if (grid[i][j] == '0')
+			{
+				printf("\n 0 \n");
+			}
+			if (grid[i][j] == '1')
+			{
+				printf(" \n 1 \n");
+			}
+			printf("\nX = %d, Y = %d\n", i, j);
+			j++;
+		}
+		i++;
+		printf("\n");
+	}
+
+}
