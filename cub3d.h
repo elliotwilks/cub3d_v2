@@ -16,6 +16,8 @@
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
 #define PLAYER_SIZE 27
+#define ARROW_WIDTH 10
+#define ARROW_HEIGHT 30
 #define WALL_BLOCK_SIZE 33
 #define SPEED 5
 
@@ -61,6 +63,7 @@ typedef struct s_player
 	int				move_speed;
 	int				rotation_speed;
 	mlx_image_t		*player_image;
+	mlx_image_t		*player_arrow;
 }
 t_player;
 

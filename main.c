@@ -4,10 +4,30 @@
 /*
 I need to be able to draw a line that shoots out in front of the player so I can
 see the orientation of the player and when they rotate.
+
+Common Pattern
+Create the "new_image"
+Fill the new_image;
+Put the new_image to the screen
+
 */
-void	ft_rotate_player(void *game)
+void	ft_rotate_player(void *param)
 {
-	(void)game;
+	int		x_oreintation;
+	int		x_oreintation;
+	t_game	*game;
+
+	game = (t_game *)param;
+
+	game->player->player_arrow = mlx_new_image(game->mlx, ARROW_WIDTH, ARROW_HEIGHT);
+
+	draw_arrow(game->player->player_arrow);
+
+	// How to fint the orientation?
+	// How to rotate the image?
+
+	mlx_image_to_window(game->mlx, game->player->player_arrow, )
+
 
 }
 
