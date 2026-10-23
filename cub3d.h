@@ -107,4 +107,18 @@ void		print_player(t_player *player);
 void		init(t_game *game, char *argv);
 void		print_grid(char **grid);
 
+
+/*:::::::::::::::::::		LOOP FUNCTIONS		:::::::::::::::::::::*/
+
+void	ft_move_player(void* param);
+int		is_wall(t_game *game, int new_x, int new_y);
+
+
+/*:::::::::::::::::::		DRAW FUNCTIONS		:::::::::::::::::::::*/
+
+void		fill(mlx_image_t *img, uint32_t color);
+void		draw_mini_map(t_game *game);
+void		draw_player(t_game *game);
+
+
 #endif //CUB3D_H
