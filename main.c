@@ -1,11 +1,5 @@
 #include "cub3d.h"
 
-/*
-:::::::::::::::::::::::::		CURRENTLY	   :::::::::::::::::::::::::::::::::
-
-
-*/
-
 static void	fill(mlx_image_t *img, uint32_t color)
 {
 	uint32_t	x;
@@ -56,15 +50,6 @@ void	draw_player(t_game *game)
 	mlx_image_to_window(game->mlx, game->player->player_image, game->player->x_position, game->player->y_position);
 }
 
-
-
-/*
-Breaking this funciton down.
-
-Function returns 1 if the coordinates are hitting a wall and
-zero if it is not.
-
-*/
 int	is_wall(t_game *game, int new_x, int new_y)
 {
 	int	x;
@@ -73,7 +58,6 @@ int	is_wall(t_game *game, int new_x, int new_y)
 	x = new_x / WALL_BLOCK_SIZE;
 	y = new_y / WALL_BLOCK_SIZE;
 
-	// If x or y is less that 0 then its out of bounds
 	if (new_x < 0 || new_y < 0)
 		return (1);
 
@@ -83,8 +67,7 @@ int	is_wall(t_game *game, int new_x, int new_y)
 	if (x >= ft_strlen(game->data->grid[y]))
 		return (1);
 
-
-	if (game->data->grid[row][col] == '1')
+	if (game->data->grid[y][x] == '1')
 		return (1);
 
 	return (0);
@@ -110,8 +93,17 @@ void ft_move_player(void* param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		new_x += SPEED;
 
-	// If the new x and y coordinates move into a wall then set to the old coordinates
-	if (is_wall(game, new_x, new_y) == 1 )
+	/*
+	I should improve this so that it is checking all sides of the box. If  I  minus
+	either the x or y by the plaer side I can  check  if  that  specific  point  is
+	hitting a wall. But what is  the  current  default?  This  still  needs  to  be
+	improved. But for now it is able to stop the player  moving  through  walls.  I
+	will come back to this.
+	*/
+	if (is_wall(game, new_x, new_y) == 1
+		|| is_wall(game, new_x, new_y + PLAYER_SIZE - 1) == 1
+		|| is_wall(game, new_x + PLAYER_SIZE - 1, new_y) == 1
+	)
 	{
 		game->player->player_image->instances[0].x = game->player->x_position;
 		game->player->player_image->instances[0].y = game->player->y_position;

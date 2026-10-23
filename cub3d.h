@@ -15,7 +15,7 @@
 #define BUFFER_SIZE 33
 #define FIELD_OF_VIEW 60
 #define HALF_FIELD_OF_VIEW 30
-#define PLAYER_SIZE 30
+#define PLAYER_SIZE 27
 #define WALL_BLOCK_SIZE 33
 #define SPEED 5
 
