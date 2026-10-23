@@ -70,12 +70,21 @@ int	is_wall(t_game *game, int new_x, int new_y)
 	int	x;
 	int	y;
 
-	(void)game;
-
 	x = new_x / WALL_BLOCK_SIZE;
 	y = new_y / WALL_BLOCK_SIZE;
 
-	if (x < 0 || y < 0)
+	// If x or y is less that 0 then its out of bounds
+	if (new_x < 0 || new_y < 0)
+		return (1);
+
+	if (game->data->grid[y] == NULL)
+		return (1);
+
+	if (x >= ft_strlen(game->data->grid[y]))
+		return (1);
+
+
+	if (game->data->grid[row][col] == '1')
 		return (1);
 
 	return (0);
@@ -102,7 +111,7 @@ void ft_move_player(void* param)
 		new_x += SPEED;
 
 	// If the new x and y coordinates move into a wall then set to the old coordinates
-	if (is_wall(game, new_x, new_y) == 1)
+	if (is_wall(game, new_x, new_y) == 1 )
 	{
 		game->player->player_image->instances[0].x = game->player->x_position;
 		game->player->player_image->instances[0].y = game->player->y_position;
@@ -120,7 +129,6 @@ void	loop(t_game *game)
 {
 	mlx_loop_hook(game->mlx, ft_move_player, game);
 }
-
 
 
 int	main(int argc, char **argv)
